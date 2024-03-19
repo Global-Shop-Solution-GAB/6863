@@ -1,0 +1,42 @@
+﻿Program.Sub.Preflight.Start
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+V.Local.sInfo1.Declare
+
+F.Intrinsic.Control.SelectCase(V.Caller.Hook)
+	F.Intrinsic.Control.Case(12045)
+		'SO Lines Load Part Hook
+		'000028 - Info 1
+		'000071 - Commission Type
+		F.Intrinsic.Control.If(V.Passed.000028.Trim,<>,"")
+			V.Passed.000071.Set(V.Passed.000028)
+			'Commission Type can hold 5 characters max
+			V.Local.sInfo1.Set(V.Passed.000028.Trim)
+			F.Intrinsic.Control.If(V.Local.sInfo1.Length,>,5)
+				F.Intrinsic.UI.ChangeCallerProperty(V.Passed.GAB-LBL-6,"HIDE",0)
+				F.Intrinsic.Variable.SetProperty("GAB-LBL-6","PL",896)
+				F.Intrinsic.Variable.SetProperty("GAB-LBL-6","PT",110)
+				F.Intrinsic.Variable.SetProperty("GAB-LBL-6","PW",75)
+				F.Intrinsic.Variable.SetProperty("GAB-LBL-6","FC",V.Color.Red)
+				V.Passed.GAB-LBL-6.Set("5 character max")
+			F.Intrinsic.Control.Else
+				F.Intrinsic.UI.ChangeCallerProperty(V.Passed.GAB-LBL-6,"HIDE",1)
+			F.Intrinsic.Control.EndIf
+		F.Intrinsic.Control.EndIf
+	F.Intrinsic.Control.CaseElse
+		'Any SO Lines Hook
+		'12231 - SO Lines Post Save
+		'12242 - SO Lines Post Delete
+		'12260 - SO Lines Copy
+		'12705 - SO Lines Line Changed
+		'12706 - SO Lines Post Clear
+		F.Intrinsic.UI.ChangeCallerProperty(V.Passed.GAB-LBL-6,"HIDE",1)
+F.Intrinsic.Control.EndSelect
+
+Program.Sub.Main.End
+
+Program.Sub.Comments.Start
+${$5$}$3.0.0.0$}$1
+${$6$}$bbaker$}$20220809140210619$}$pM7xsHplA2E9VCTenDTJ47gi1rF/t66WO1MGcamMyj7VMrO1NbbAKDpMhR9Or7y3c8mM/TGFFO4=
+Program.Sub.Comments.End
